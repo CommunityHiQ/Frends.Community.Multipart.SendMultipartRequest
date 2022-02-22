@@ -90,3 +90,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | Version | Changes                             |
 |---------|-------------------------------------|
 | 1.0.0   | Initial implementation of the task. |
+| 1.0.1   | Task package description update.    |
