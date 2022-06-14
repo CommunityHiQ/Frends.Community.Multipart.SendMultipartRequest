@@ -24,11 +24,6 @@ namespace Frends.Community.Multipart
         public SendFile[] FilePaths { get; set; }
 
         /// <summary>
-        /// Array of bodys.
-        /// </summary>
-        public InputBody[] Bodys { get; set; }
-
-        /// <summary>
         /// Headers for the request.
         /// No need to add Content-Type, since it is always Multipart/form-data.
         /// </summary>
@@ -124,23 +119,6 @@ namespace Frends.Community.Multipart
         /// Name of the header.
         /// </summary>
         public string Key { get; set; }
-
-        /// <summary>
-        /// Value for the header.
-        /// </summary>
-        public string Value { get; set; }
-    }
-
-
-    /// <summary>
-    /// Header-class for SendMultipartRequest.
-    /// </summary>
-    public class InputBody
-    {
-        /// <summary>
-        /// Name of the header.
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// Value for the header.

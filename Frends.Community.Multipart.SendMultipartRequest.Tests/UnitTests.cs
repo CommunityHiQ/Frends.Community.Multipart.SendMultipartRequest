@@ -19,10 +19,6 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
                 new SendFile{ Name = "test.txt", Fullpath = testFile },
             };
 
-            var bodies = new InputBody[]
-            {
-            };
-
             var headers = new InputHeader[]
             {
             };
@@ -36,7 +32,6 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
                 Url = "",
                 FilePaths = files,
                 Headers = headers,
-                Bodys = bodies,
                 TextData = textData
             };
 
