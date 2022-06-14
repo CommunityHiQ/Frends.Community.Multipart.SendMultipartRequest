@@ -40,11 +40,17 @@ namespace Frends.Community.Multipart
                 request.AddFile("file", filebyte, file.Name, "application/octet-stream");
             }
 
+            foreach (var file in input.TextData)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                request.AddParameter(file.Key, file.Value, ParameterType.GetOrPost);
+            }
+
             foreach (var header in input.Headers) if (header.Name != "Content-Type") request.AddHeader(header.Name, header.Value);
 
             request.AddHeader("Content-Type", "multipart/form-data");
             if (options.Authentication is AuthenticationMethod.Basic) client.Authenticator = new HttpBasicAuthenticator(options.Username, options.Password);
-            else if (options.Authentication is AuthenticationMethod.OAuth2) client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator("Bearer", options.BearerToken);
+            else if (options.Authentication is AuthenticationMethod.OAuth2) client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
             var response = await client.ExecuteAsync(request);
 
             return new SendResult { Body = JsonConvert.DeserializeObject<dynamic>(response.Content), RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };

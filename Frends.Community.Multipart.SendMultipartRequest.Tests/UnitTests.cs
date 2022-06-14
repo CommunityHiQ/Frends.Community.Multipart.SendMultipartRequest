@@ -19,14 +19,43 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
                 new SendFile{ Name = "test.txt", Fullpath = testFile },
             };
 
-            var input = new SendInput
+            var bodies = new InputBody[]
             {
-                Url = @"https://httpbin.org/post",
-                FilePaths = files,
-                Headers = new InputHeader[]{}
             };
 
-            var options = new SendOptions();
+            var headers = new InputHeader[]
+            {
+            };
+
+            var textData = new TextData[]
+            {
+                new TextData
+                {
+                    Key = "attachments",
+                    Value = @"[{""title"": ""Random"", ""image_url"": ""https://upload.wikimedia.org/wikipedia/en/0/0b/Postman-Pat.jpg""}]"
+                },
+                new TextData
+                {
+                    Key = "channel",
+                    Value = "G01QH4ES8SV"
+                }
+            };
+
+            var input = new SendInput
+            {
+                Url = @"https://slack.com/api/chat.postMessage", // https://slack.com/api/chat.postMessage
+                FilePaths = files,
+                Headers = headers,
+                Bodys = bodies,
+                TextData = textData
+            };
+
+            var options = new SendOptions()
+            {
+                Authentication = AuthenticationMethod.OAuth2,
+                BearerToken = "xoxb-1816171944434-1826655541764-UcWHT5s4O9BE50SXNSai4oXs",
+            };
+
             var result = await MultipartTasks.SendMultipartRequest(input, options, new CancellationToken());
 
             Assert.IsTrue(result.RequestIsSuccessful);
