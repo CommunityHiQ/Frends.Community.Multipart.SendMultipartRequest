@@ -53,7 +53,9 @@ namespace Frends.Community.Multipart
             else if (options.Authentication is AuthenticationMethod.OAuth2) client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
             var response = await client.ExecuteAsync(request, cancellationToken);
 
-            return new SendResult { Body = JsonConvert.DeserializeObject<dynamic>(response.Content), RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
+
+
+            return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) :  null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
         }
     }
 }
