@@ -33,6 +33,7 @@ A frends task for sending multipart/form-data requests.
 | Url       | `string`                                      | Target URL.                                                                                           | `https://httpbin.org/post`                    |
 | FilePaths | `Array(Object<string Name, string FullPath>)` | List of files which will be sent to the target server.                                                | `Name = test.txt, FullPath = C:\tmp\test.txt` |
 | Headers   | `Array(Object<string Name, string Value>)`    | List of headers for the request. No need to add Content-Type, since it is always multipart/form-data. | `Name = Accept, Value = application/json`     |
+| TextData  | `Array(Object<string Key, string Data>)`      | List of custom parameters for the request.                                                            | `Key = channel, Value = G01QH4ES8SY`          |
 
 ### Options
 

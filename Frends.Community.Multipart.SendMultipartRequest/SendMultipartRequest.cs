@@ -51,7 +51,7 @@ namespace Frends.Community.Multipart
             request.AddHeader("Content-Type", "multipart/form-data");
             if (options.Authentication is AuthenticationMethod.Basic) client.Authenticator = new HttpBasicAuthenticator(options.Username, options.Password);
             else if (options.Authentication is AuthenticationMethod.OAuth2) client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
-            var response = await client.ExecuteAsync(request);
+            var response = await client.ExecuteAsync(request, cancellationToken);
 
             return new SendResult { Body = JsonConvert.DeserializeObject<dynamic>(response.Content), RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
         }
