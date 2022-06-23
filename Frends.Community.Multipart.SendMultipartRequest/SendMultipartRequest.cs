@@ -2,6 +2,7 @@
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Authenticators.OAuth2;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
@@ -26,11 +27,15 @@ namespace Frends.Community.Multipart
             [PropertyTab] SendOptions options,
             CancellationToken cancellationToken)
         {
-            var client = new RestClient(input.Url);
-            var request = new RestRequest("/", Method.Post)
+            try
             {
-                AlwaysMultipartFormData = true
-            };
+                var secondsToTicks = (int) TimeSpan.FromSeconds(options.Timeout).Ticks;
+            var client = new RestClient(input.Url);
+                var request = new RestRequest("/", Method.Post)
+                {
+                    AlwaysMultipartFormData = true,
+                    Timeout = secondsToTicks
+                };
 
             foreach (var file in input.FilePaths)
             {
@@ -53,9 +58,16 @@ namespace Frends.Community.Multipart
             else if (options.Authentication is AuthenticationMethod.OAuth2) client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
             var response = await client.ExecuteAsync(request, cancellationToken);
 
-
-
             return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) :  null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
+
+            }
+            catch (System.Exception ex)
+            {
+                if (options.HandleErrors)
+                    throw new System.Exception(ex.ToString());
+                else
+                    throw;
+            }
         }
     }
 }
