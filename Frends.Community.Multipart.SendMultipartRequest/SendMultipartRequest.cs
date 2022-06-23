@@ -5,6 +5,7 @@ using RestSharp.Authenticators.OAuth2;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -58,13 +59,18 @@ namespace Frends.Community.Multipart
             else if (options.Authentication is AuthenticationMethod.OAuth2) client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
             var response = await client.ExecuteAsync(request, cancellationToken);
 
+            if (!response.IsSuccessful)
+                {
+                    throw new WebException($"{response.StatusCode}: {response.StatusDescription}");
+                }
+
             return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) :  null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
 
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 if (options.HandleErrors)
-                    throw new System.Exception(ex.ToString());
+                    throw new Exception(ex.ToString());
                 else
                     throw;
             }
