@@ -30,41 +30,48 @@ namespace Frends.Community.Multipart
         {
             try
             {
-                var secondsToTicks = (int) TimeSpan.FromSeconds(options.Timeout).Ticks;
-            var client = new RestClient(input.Url);
+                var secondsToTicks = (int)TimeSpan.FromSeconds(options.Timeout).Ticks;
+                var client = new RestClient(input.Url);
                 var request = new RestRequest("/", Method.Post)
                 {
                     AlwaysMultipartFormData = true,
                     Timeout = secondsToTicks
                 };
 
-            foreach (var file in input.FilePaths)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                if (!File.Exists(file.Fullpath)) throw new FileNotFoundException("Input file was not found. File: " + file.Fullpath);
-                var filebyte = File.ReadAllBytes(file.Fullpath);
-                request.AddFile("file", filebyte, file.Name, "application/octet-stream");
-            }
-
-            foreach (var file in input.TextData)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                request.AddParameter(file.Key, file.Value, ParameterType.GetOrPost);
-            }
-
-            foreach (var header in input.Headers) if (header.Name != "Content-Type") request.AddHeader(header.Name, header.Value);
-
-            request.AddHeader("Content-Type", "multipart/form-data");
-            if (options.Authentication is AuthenticationMethod.Basic) client.Authenticator = new HttpBasicAuthenticator(options.Username, options.Password);
-            else if (options.Authentication is AuthenticationMethod.OAuth2) client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
-            var response = await client.ExecuteAsync(request, cancellationToken);
-
-            if (!response.IsSuccessful)
+                foreach (var file in input.FilePaths)
                 {
-                    throw new WebException($"{response.StatusCode}: {response.StatusDescription}");
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    if (!File.Exists(file.Fullpath)) 
+                        throw new FileNotFoundException("Input file was not found. File: " + file.Fullpath);
+
+                    var filebyte = File.ReadAllBytes(file.Fullpath);
+                    request.AddFile("file", filebyte, file.Name, "application/octet-stream");
                 }
 
-            return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) :  null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
+                foreach (var file in input.TextData)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    request.AddParameter(file.Key, file.Value, ParameterType.GetOrPost);
+                }
+
+                foreach (var header in input.Headers) 
+                    if (header.Name != "Content-Type") 
+                        request.AddHeader(header.Name, header.Value);
+
+                request.AddHeader("Content-Type", "multipart/form-data");
+
+                if (options.Authentication is AuthenticationMethod.Basic) 
+                    client.Authenticator = new HttpBasicAuthenticator(options.Username, options.Password);
+                else if (options.Authentication is AuthenticationMethod.OAuth2) 
+                    client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
+
+                var response = await client.ExecuteAsync(request, cancellationToken);
+
+                if (!response.IsSuccessful) 
+                    throw new WebException($"{response.StatusCode}: {response.StatusDescription}");
+
+                return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) : null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
 
             }
             catch (Exception ex)
