@@ -19,7 +19,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
                 Url = @"https://httpbin.org/post",
                 FilePaths = new SendFile[] { new SendFile { Name = "test.txt", Fullpath = testFile } },
                 Headers = new InputHeader[] { },
-                TextData = new TextData[] { },
+                TextData = new TextData[] { new TextData { Key = "randomKey", Value = "SomeValue" } },
             };
 
             var options = new SendOptions()
