@@ -14,21 +14,21 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
         [Test]
         public async Task SendMultipartRequestTest()
         {
-            var files = new SendFile[]
-            {
-                new SendFile{ Name = "test.txt", Fullpath = testFile },
-            };
-
             var input = new SendInput
             {
                 Url = @"https://httpbin.org/post",
-                FilePaths = files,
-                Headers = new InputHeader[]{}
+                FilePaths = new SendFile[] { new SendFile { Name = "test.txt", Fullpath = testFile } },
+                Headers = new InputHeader[] { },
+                TextData = new TextData[] { new TextData { Key = "randomKey", Value = "SomeValue" } },
             };
 
-            var options = new SendOptions();
-            var result = await MultipartTasks.SendMultipartRequest(input, options, new CancellationToken());
+            var options = new SendOptions()
+            {
+                Authentication = AuthenticationMethod.None,
+                BearerToken = null,
+            };
 
+            var result = await MultipartTasks.SendMultipartRequest(input, options, new CancellationToken());
             Assert.IsTrue(result.RequestIsSuccessful);
         }
     }
