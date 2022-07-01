@@ -42,33 +42,33 @@ namespace Frends.Community.Multipart
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    if (!File.Exists(file.Fullpath)) 
+                    if (!File.Exists(file.Fullpath))
                         throw new FileNotFoundException("Input file was not found. File: " + file.Fullpath);
 
                     var filebyte = File.ReadAllBytes(file.Fullpath);
                     request.AddFile("file", filebyte, file.Name, "application/octet-stream");
                 }
 
-                foreach (var file in input.TextData)
+                foreach (var text in input.TextData)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
-                    request.AddParameter(file.Key, file.Value, ParameterType.GetOrPost);
+                    request.AddParameter(text.Key, text.Value, ParameterType.GetOrPost);
                 }
 
-                foreach (var header in input.Headers) 
-                    if (header.Name != "Content-Type") 
+                foreach (var header in input.Headers)
+                    if (header.Name != "Content-Type")
                         request.AddHeader(header.Name, header.Value);
 
                 request.AddHeader("Content-Type", "multipart/form-data");
 
-                if (options.Authentication is AuthenticationMethod.Basic) 
+                if (options.Authentication is AuthenticationMethod.Basic)
                     client.Authenticator = new HttpBasicAuthenticator(options.Username, options.Password);
-                else if (options.Authentication is AuthenticationMethod.OAuth2) 
+                else if (options.Authentication is AuthenticationMethod.OAuth2)
                     client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
 
                 var response = await client.ExecuteAsync(request, cancellationToken);
 
-                if (!response.IsSuccessful) 
+                if (!response.IsSuccessful)
                     throw new WebException($"{response.StatusCode}: {response.StatusDescription}");
 
                 return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) : null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
@@ -76,10 +76,7 @@ namespace Frends.Community.Multipart
             }
             catch (Exception ex)
             {
-                if (options.HandleErrors)
-                    throw new Exception(ex.ToString());
-                else
-                    throw;
+                throw new Exception(ex.ToString());
             }
         }
     }

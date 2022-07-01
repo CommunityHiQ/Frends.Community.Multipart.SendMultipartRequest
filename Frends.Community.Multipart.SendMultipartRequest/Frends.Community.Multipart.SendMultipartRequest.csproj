@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/CommunityHiQ/Frends.Community.Multipart.SendMultipartRequest</PackageProjectUrl>
     <IncludeSource>true</IncludeSource>
     <PackageTags>Frends</PackageTags>
-	<Description>FRENDS task for sending multipart/form-data requests.</Description>
+	<Description>Frends task for sending multipart/form-data requests.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Version>1.0.2</Version>
   </PropertyGroup>

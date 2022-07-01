@@ -75,13 +75,6 @@ public class SendOptions
     /// </summary>
     /// <example>30</example>
     public double Timeout { get; set; }
-
-    /// <summary>
-    /// Log exceptions.
-    /// </summary>
-    /// <example>true</example>
-    public bool HandleErrors { get; set; }
-
 }
 
 /// <summary>
