@@ -74,6 +74,7 @@ public class SendOptions
     /// Set timeout in seconds.
     /// </summary>
     /// <example>30</example>
+    [DefaultValue(30)]
     public double Timeout { get; set; }
 }
 

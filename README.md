@@ -93,3 +93,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.0.0   | Initial implementation of the task.                                 |
 | 1.0.1   | Task package description update.                                    |
 | 1.0.2   | TargetFramework update to net 6.0. Support for manual parameters.   |
+| 1.0.3   | Default value for timeout parameter.                                |
