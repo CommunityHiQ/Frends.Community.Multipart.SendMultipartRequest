@@ -1,7 +1,7 @@
 # Frends.Community.Multipart.SendMultipartRequest
 
 A frends task for parsing multipart/form-data requests.<br/>
-Only works on .NET Standard 2.0, since RestSharp doesn't support .NET Framework 4.7.1.
+Only works on .NET Standard 2.0 and .NET6.0, since RestSharp doesn't support .NET Framework 4.7.1.
 
 [![Actions Status](https://github.com/CommunityHiQ/Frends.Community.Multipart.SendMultipartRequest/workflows/PackAndPushAfterMerge/badge.svg)](https://github.com/CommunityHiQ/Frends.Community.Multipart.SendMultipartRequest/actions)
 ![MyGet](https://img.shields.io/myget/frends-community/v/Frends.Community.Multipart.SendMultipartRequest)
@@ -94,3 +94,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.0.1   | Task package description update.                                    |
 | 1.0.2   | TargetFramework update to net 6.0. Support for manual parameters.   |
 | 1.0.3   | Default value for timeout parameter.                                |
+| 1.0.4   | Fixed issue with NuGet feed did not found Task package.             |
