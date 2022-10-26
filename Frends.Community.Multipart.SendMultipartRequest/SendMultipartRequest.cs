@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Frends.Community.Multipart.SendMultipartRequest
 {
-    public class MultipartTasks
+    public static class MultipartTasks
     {
         /// <summary>
         /// Send multipart/form-data request to server.
