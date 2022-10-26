@@ -1,7 +1,7 @@
 ﻿{
 	"Tasks": [
 		{
-			"TaskMethod": "Frends.Community.Multipart.SendMultipartRequest.MultipartTasks.SendMultipartRequest"
+			"TaskMethod": "Frends.Community.Multipart.MultipartTasks.SendMultipartRequest"
 		}
 	]
 }
