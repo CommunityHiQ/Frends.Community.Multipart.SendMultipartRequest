@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 #pragma warning disable CS1591
 
-namespace Frends.Community.Multipart;
+namespace Frends.Community.Multipart.SendMultipartRequest;
 
 /// <summary>
 /// Input-class for SendMultipartRequest

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 #pragma warning disable 1591
 #pragma warning disable CS1573
 
-namespace Frends.Community.Multipart
+namespace Frends.Community.Multipart.SendMultipartRequest
 {
     public class MultipartTasks
     {
