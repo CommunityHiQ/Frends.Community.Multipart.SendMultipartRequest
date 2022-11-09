@@ -95,3 +95,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.0.2   | TargetFramework update to net 6.0. Support for manual parameters.   |
 | 1.0.3   | Default value for timeout parameter.                                |
 | 1.0.4   | Fixed issue with NuGet feed did not found Task package.             |
+| 1.0.5   | Removed unnecessary try-catch block to enable stacktracing          |
