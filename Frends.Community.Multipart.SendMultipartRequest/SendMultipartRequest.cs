@@ -28,56 +28,49 @@ namespace Frends.Community.Multipart
             [PropertyTab] SendOptions options,
             CancellationToken cancellationToken)
         {
-            try
+
+            var secondsToTicks = (int)TimeSpan.FromSeconds(options.Timeout).Ticks;
+            var client = new RestClient(input.Url);
+            var request = new RestRequest("/", Method.Post)
             {
-                var secondsToTicks = (int)TimeSpan.FromSeconds(options.Timeout).Ticks;
-                var client = new RestClient(input.Url);
-                var request = new RestRequest("/", Method.Post)
-                {
-                    AlwaysMultipartFormData = true,
-                    Timeout = secondsToTicks
-                };
+                AlwaysMultipartFormData = true,
+                Timeout = secondsToTicks
+            };
 
-                foreach (var file in input.FilePaths)
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    if (!File.Exists(file.Fullpath))
-                        throw new FileNotFoundException("Input file was not found. File: " + file.Fullpath);
-
-                    var filebyte = File.ReadAllBytes(file.Fullpath);
-                    request.AddFile("file", filebyte, file.Name, "application/octet-stream");
-                }
-
-                foreach (var text in input.TextData)
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    request.AddParameter(text.Key, text.Value, ParameterType.GetOrPost);
-                }
-
-                foreach (var header in input.Headers)
-                    if (header.Name != "Content-Type")
-                        request.AddHeader(header.Name, header.Value);
-
-                request.AddHeader("Content-Type", "multipart/form-data");
-
-                if (options.Authentication is AuthenticationMethod.Basic)
-                    client.Authenticator = new HttpBasicAuthenticator(options.Username, options.Password);
-                else if (options.Authentication is AuthenticationMethod.OAuth2)
-                    client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
-
-                var response = await client.ExecuteAsync(request, cancellationToken);
-
-                if (!response.IsSuccessful)
-                    throw new WebException($"{response.StatusCode}: {response.StatusDescription}");
-
-                return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) : null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
-
-            }
-            catch (Exception ex)
+            foreach (var file in input.FilePaths)
             {
-                throw new Exception(ex.ToString());
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (!File.Exists(file.Fullpath))
+                    throw new FileNotFoundException("Input file was not found. File: " + file.Fullpath);
+
+                var filebyte = File.ReadAllBytes(file.Fullpath);
+                request.AddFile("file", filebyte, file.Name, "application/octet-stream");
             }
+
+            foreach (var text in input.TextData)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                request.AddParameter(text.Key, text.Value, ParameterType.GetOrPost);
+            }
+
+            foreach (var header in input.Headers)
+                if (header.Name != "Content-Type")
+                    request.AddHeader(header.Name, header.Value);
+
+            request.AddHeader("Content-Type", "multipart/form-data");
+
+            if (options.Authentication is AuthenticationMethod.Basic)
+                client.Authenticator = new HttpBasicAuthenticator(options.Username, options.Password);
+            else if (options.Authentication is AuthenticationMethod.OAuth2)
+                client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(options.BearerToken, "Bearer");
+
+            var response = await client.ExecuteAsync(request, cancellationToken);
+
+            if (!response.IsSuccessful)
+                throw new WebException($"{response.StatusCode}: {response.StatusDescription}");
+
+            return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) : null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
         }
     }
 }
