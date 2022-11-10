@@ -43,6 +43,8 @@ A frends task for sending multipart/form-data requests.
 | Username       | `string`                  | Username for authentication. Only required when Basic authentication is selected.      | `testuser`              |
 | Password       | `string`                  | Password for the user. Only required when Basic authentication is selected.            | `verysecretpassword123` |
 | BearerToken    | `string`                  | Bearer token for authentication. Only required when OAuth2 authentication is selected. | `token123`              |
+| Timeout        | `int`                     | Set timeout in seconds.                                                                | `30`                    |
+| ThrowExceptionOnErrorResponse    | `bool`                  | Throw exception if return code of request is not successful. | `token123`              |
 
 ### Returns
 
@@ -96,3 +98,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.0.3   | Default value for timeout parameter.                                |
 | 1.0.4   | Fixed issue with NuGet feed did not found Task package.             |
 | 1.0.5   | Removed unnecessary try-catch block to enable stacktracing          |
+| 1.1.0   | Fixed error message and added param ThrowExceptionOnErrorResponse   |

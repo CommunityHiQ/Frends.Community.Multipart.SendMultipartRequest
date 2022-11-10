@@ -76,6 +76,12 @@ public class SendOptions
     /// <example>30</example>
     [DefaultValue(30)]
     public double Timeout { get; set; }
+
+    /// <summary>
+    /// Throw exception if return code of request is not successful.
+    /// </summary>
+    [DefaultValue(false)]
+    public bool ThrowExceptionOnErrorResponse { get; set; }
 }
 
 /// <summary>
