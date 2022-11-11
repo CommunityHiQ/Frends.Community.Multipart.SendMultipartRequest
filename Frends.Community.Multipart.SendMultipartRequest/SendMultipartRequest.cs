@@ -66,8 +66,11 @@ namespace Frends.Community.Multipart.SendMultipartRequest
 
             var response = await client.ExecuteAsync(request, cancellationToken);
 
+            if (!response.IsSuccessful && options.ThrowExceptionOnErrorResponse)
+                throw new WebException($"Status Code: {(int)response.StatusCode}\nDescription: {response.StatusDescription}\nBody:\n{response.Content}");
+
             if (!response.IsSuccessful)
-                throw new WebException($"{response.StatusCode}: {response.StatusDescription}");
+                return new SendResult { Body = null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.Content };
 
             return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) : null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
         }
