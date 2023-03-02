@@ -1,7 +1,7 @@
 # Frends.Community.Multipart.SendMultipartRequest
 
 A frends task for parsing multipart/form-data requests.<br/>
-Only works on .NET Standard 2.0 and .NET6.0, since RestSharp doesn't support .NET Framework 4.7.1.
+Only works on .NET6.0, since RestSharp doesn't support .NET Framework 4.7.1.
 
 [![Actions Status](https://github.com/CommunityHiQ/Frends.Community.Multipart.SendMultipartRequest/workflows/PackAndPushAfterMerge/badge.svg)](https://github.com/CommunityHiQ/Frends.Community.Multipart.SendMultipartRequest/actions)
 ![MyGet](https://img.shields.io/myget/frends-community/v/Frends.Community.Multipart.SendMultipartRequest)
@@ -28,23 +28,23 @@ A frends task for sending multipart/form-data requests.
 
 ### Input
 
-| Property  | Type                                          | Description                                                                                           | Example                                       |
-|-----------|-----------------------------------------------|-------------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| Url       | `string`                                      | Target URL.                                                                                           | `https://httpbin.org/post`                    |
-| FilePaths | `Array(Object<string Name, string FullPath>)` | List of files which will be sent to the target server.                                                | `Name = test.txt, FullPath = C:\tmp\test.txt` |
-| Headers   | `Array(Object<string Name, string Value>)`    | List of headers for the request. No need to add Content-Type, since it is always multipart/form-data. | `Name = Accept, Value = application/json`     |
-| TextData  | `Array(Object<string Key, string Data>)`      | List of custom parameters for the request.                                                            | `Key = channel, Value = G01QH4ES8SY`          |
+| Property  | Type                                                    | Description                                                                                           | Example                                               |
+|-----------|---------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| Url       | `string`                                                | Target URL.                                                                                           | `https://httpbin.org/post`                            |
+| FilePaths | `Array(Object<enum FileParameterKey, string FullPath>)` | List of files which will be sent to the target server.                                                | `FileParameterKey = file, FullPath = C:\tmp\test.txt` |
+| Headers   | `Array(Object<string Name, string Value>)`              | List of headers for the request. No need to add Content-Type, since it is always multipart/form-data. | `Name = Accept, Value = application/json`             |
+| TextData  | `Array(Object<string Key, string Data>)`                | List of custom parameters for the request.                                                            | `Key = channel, Value = G01QH4ES8SY`                  |
 
 ### Options
 
-| Property       | Type                      | Description                                                                            | Example                 |
-|----------------|---------------------------|----------------------------------------------------------------------------------------|-------------------------|
-| Authentication | Enum<None, Basic, OAuth2> | Authentication method.                                                                 | `Basic`                 |
-| Username       | `string`                  | Username for authentication. Only required when Basic authentication is selected.      | `testuser`              |
-| Password       | `string`                  | Password for the user. Only required when Basic authentication is selected.            | `verysecretpassword123` |
-| BearerToken    | `string`                  | Bearer token for authentication. Only required when OAuth2 authentication is selected. | `token123`              |
-| Timeout        | `int`                     | Set timeout in seconds.                                                                | `30`                    |
-| ThrowExceptionOnErrorResponse    | `bool`                  | Throw exception if return code of request is not successful. | `token123`              |
+| Property                         | Type                      | Description                                                                            | Example                 |
+|----------------------------------|---------------------------|----------------------------------------------------------------------------------------|-------------------------|
+| Authentication                   | Enum<None, Basic, OAuth2> | Authentication method.                                                                 | `Basic`                 |
+| Username                         | `string`                  | Username for authentication. Only required when Basic authentication is selected.      | `testuser`              |
+| Password                         | `string`                  | Password for the user. Only required when Basic authentication is selected.            | `verysecretpassword123` |
+| BearerToken                      | `string`                  | Bearer token for authentication. Only required when OAuth2 authentication is selected. | `token123`              |
+| Timeout                          | `int`                     | Set timeout in seconds.                                                                | `30`                    |
+| ThrowExceptionOnErrorResponse    | `bool`                    | Throw exception if return code of request is not successful.                           | `token123`              |
 
 ### Returns
 
@@ -90,12 +90,13 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
 # Change Log
 
-| Version | Changes                                                             |
-|---------|---------------------------------------------------------------------|
-| 1.0.0   | Initial implementation of the task.                                 |
-| 1.0.1   | Task package description update.                                    |
-| 1.0.2   | TargetFramework update to net 6.0. Support for manual parameters.   |
-| 1.0.3   | Default value for timeout parameter.                                |
-| 1.0.4   | Fixed issue with NuGet feed did not found Task package.             |
-| 1.0.5   | Removed unnecessary try-catch block to enable stacktracing          |
-| 1.1.0   | Fixed error message and added param ThrowExceptionOnErrorResponse   |
+| Version | Changes                                                                                                              |
+|---------|----------------------------------------------------------------------------------------------------------------------|
+| 1.0.0   | Initial implementation of the task.                                                                                  |
+| 1.0.1   | Task package description update.                                                                                     |
+| 1.0.2   | TargetFramework update to net 6.0. Support for manual parameters.                                                    |
+| 1.0.3   | Default value for timeout parameter.                                                                                 |
+| 1.0.4   | Fixed issue with NuGet feed did not found Task package.                                                              |
+| 1.0.5   | Removed unnecessary try-catch block to enable stacktracing                                                           |
+| 1.1.0   | Fixed error message and added param ThrowExceptionOnErrorResponse                                                    |
+| 1.2.0   | Added option to select which file parameter key will be used. Changed timeout from double to int for UI improvement. |

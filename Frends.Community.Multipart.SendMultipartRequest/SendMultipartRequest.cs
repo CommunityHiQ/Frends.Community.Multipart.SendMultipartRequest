@@ -28,7 +28,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest
             [PropertyTab] SendOptions options,
             CancellationToken cancellationToken)
         {
-            var secondsToTicks = (int)TimeSpan.FromSeconds(options.Timeout).Ticks;
+            var secondsToTicks = (int)TimeSpan.FromSeconds(Convert.ToDouble(options.Timeout)).Ticks;
             var client = new RestClient(input.Url);
             var request = new RestRequest("/", Method.Post)
             {
@@ -43,8 +43,19 @@ namespace Frends.Community.Multipart.SendMultipartRequest
                 if (!File.Exists(file.Fullpath))
                     throw new FileNotFoundException("Input file was not found. File: " + file.Fullpath);
 
-                var filebyte = File.ReadAllBytes(file.Fullpath);
-                request.AddFile("file", filebyte, file.Name, "application/octet-stream");
+                string fileParameterKey;
+
+                switch (file.FileParameterKey)
+                {
+                    case FileParameterKey.file:
+                        fileParameterKey = "file";
+                        break;
+                    default:
+                        fileParameterKey = "content";
+                        break;
+                }
+
+                request.AddFile(fileParameterKey, file.Fullpath);
             }
 
             foreach (var text in input.TextData)
@@ -56,8 +67,6 @@ namespace Frends.Community.Multipart.SendMultipartRequest
             foreach (var header in input.Headers)
                 if (header.Name != "Content-Type")
                     request.AddHeader(header.Name, header.Value);
-
-            request.AddHeader("Content-Type", "multipart/form-data");
 
             if (options.Authentication is AuthenticationMethod.Basic)
                 client.Authenticator = new HttpBasicAuthenticator(options.Username, options.Password);
