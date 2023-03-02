@@ -10,7 +10,7 @@
     <PackageTags>Frends</PackageTags>
 	<Description>Frends task for sending multipart/form-data requests.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,10 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HttpMultipartParser" Version="6.0.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 	<PackageReference Include="RestSharp" Version="108.0.1" />
   </ItemGroup>
 

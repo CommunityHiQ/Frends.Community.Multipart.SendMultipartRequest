@@ -75,7 +75,7 @@ public class SendOptions
     /// </summary>
     /// <example>30</example>
     [DefaultValue(30)]
-    public double Timeout { get; set; }
+    public int Timeout { get; set; }
 
     /// <summary>
     /// Throw exception if return code of request is not successful.
@@ -145,9 +145,10 @@ public class TextData
 public class SendFile
 {
     /// <summary>
-    /// Name of the file.
+    /// Which key should be used for file parameter?
     /// </summary>
-    public string Name { get; set; }
+    [DefaultValue(FileParameterKey.file)]
+    public FileParameterKey FileParameterKey { get; set; }
 
     /// <summary>
     /// Full path to the file.
@@ -163,4 +164,13 @@ public enum AuthenticationMethod
     None,
     Basic,
     OAuth2
+}
+
+/// <summary>
+/// Selection of file parameter key.
+/// </summary>
+public enum FileParameterKey
+{
+    file,
+    content
 }

@@ -18,7 +18,28 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
             var input = new SendInput
             {
                 Url = @"https://httpbin.org/post",
-                FilePaths = new SendFile[] { new SendFile { Name = "test.txt", Fullpath = testFile } },
+                FilePaths = new SendFile[] { new SendFile { FileParameterKey = FileParameterKey.file, Fullpath = testFile } },
+                Headers = new InputHeader[] { },
+                TextData = new TextData[] { new TextData { Key = "randomKey", Value = "SomeValue" } },
+            };
+
+            var options = new SendOptions()
+            {
+                Authentication = AuthenticationMethod.None,
+                BearerToken = null,
+            };
+
+            var result = await MultipartTasks.SendMultipartRequest(input, options, new CancellationToken());
+            Assert.IsTrue(result.RequestIsSuccessful);
+        }
+
+        [Test]
+        public async Task SendMultipartRequestWithFileAsContentTest()
+        {
+            var input = new SendInput
+            {
+                Url = @"https://httpbin.org/post",
+                FilePaths = new SendFile[] { new SendFile { FileParameterKey = FileParameterKey.content, Fullpath = testFile } },
                 Headers = new InputHeader[] { },
                 TextData = new TextData[] { new TextData { Key = "randomKey", Value = "SomeValue" } },
             };
@@ -39,7 +60,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
             var input = new SendInput
             {
                 Url = @"https://httpbin.org/bearer",
-                FilePaths = new SendFile[] { new SendFile { Name = "test.txt", Fullpath = testFile } },
+                FilePaths = new SendFile[] { new SendFile { FileParameterKey = FileParameterKey.file, Fullpath = testFile } },
                 Headers = new InputHeader[] { new InputHeader { Name = "Authorization", Value = "Bearer" } },
                 TextData = new TextData[] { new TextData { Key = "randomKey", Value = "SomeValue" } },
             };
@@ -61,7 +82,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
             var input = new SendInput
             {
                 Url = @"https://httpbin.org/bearer",
-                FilePaths = new SendFile[] { new SendFile { Name = "test.txt", Fullpath = testFile } },
+                FilePaths = new SendFile[] { new SendFile { FileParameterKey = FileParameterKey.file, Fullpath = testFile } },
                 Headers = new InputHeader[] { new InputHeader { Name = "Authorization", Value = "Bearer" } },
                 TextData = new TextData[] { new TextData { Key = "randomKey", Value = "SomeValue" } },
             };
