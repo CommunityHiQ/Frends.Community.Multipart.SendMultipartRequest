@@ -4,7 +4,6 @@ A frends task for parsing multipart/form-data requests.<br/>
 Only works on .NET6.0, since RestSharp doesn't support .NET Framework 4.7.1.
 
 [![Actions Status](https://github.com/CommunityHiQ/Frends.Community.Multipart.SendMultipartRequest/workflows/PackAndPushAfterMerge/badge.svg)](https://github.com/CommunityHiQ/Frends.Community.Multipart.SendMultipartRequest/actions)
-![MyGet](https://img.shields.io/myget/frends-community/v/Frends.Community.Multipart.SendMultipartRequest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
 - [Installing](#installing)
@@ -17,8 +16,7 @@ Only works on .NET6.0, since RestSharp doesn't support .NET Framework 4.7.1.
 
 # Installing
 
-You can install the Task via frends UI Task View or you can find the NuGet package from the following NuGet feed
-https://www.myget.org/F/frends-community/api/v3/index.json and in Gallery view in MyGet https://www.myget.org/feed/frends-community/package/nuget/Frends.Community.Multipart.SendMultipartRequest
+You can install the Task via Frends Control Panel from Package Manager.
 
 # Tasks
 
@@ -30,6 +28,7 @@ A frends task for sending multipart/form-data requests.
 
 | Property  | Type                                                    | Description                                                                                           | Example                                               |
 |-----------|---------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| Method    | `Enum<POST, PUT>`                                       | HTTP method which should be used for the multipart/form-data request.                                 | `POST`                                                |
 | Url       | `string`                                                | Target URL.                                                                                           | `https://httpbin.org/post`                            |
 | FilePaths | `Array(Object<enum FileParameterKey, string FullPath>)` | List of files which will be sent to the target server.                                                | `FileParameterKey = file, FullPath = C:\tmp\test.txt` |
 | Headers   | `Array(Object<string Name, string Value>)`              | List of headers for the request. No need to add Content-Type, since it is always multipart/form-data. | `Name = Accept, Value = application/json`             |
@@ -100,3 +99,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.0.5   | Removed unnecessary try-catch block to enable stacktracing                                                           |
 | 1.1.0   | Fixed error message and added param ThrowExceptionOnErrorResponse                                                    |
 | 1.2.0   | Added option to select which file parameter key will be used. Changed timeout from double to int for UI improvement. |
+| 1.3.0   | Added option to select which HTTP method should be used for the request.                                             |
