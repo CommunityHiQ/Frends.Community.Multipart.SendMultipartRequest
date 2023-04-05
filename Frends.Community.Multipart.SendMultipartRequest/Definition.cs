@@ -12,6 +12,12 @@ namespace Frends.Community.Multipart.SendMultipartRequest;
 public class SendInput
 {
     /// <summary>
+    /// HTTP method for the request.
+    /// </summary>
+    [DefaultValue(HttpMethod.POST)]
+    public HttpMethod Method { get; set; }
+
+    /// <summary>
     /// Target URL.
     /// </summary>
     [DisplayFormat(DataFormatString = "Text")]
@@ -173,4 +179,13 @@ public enum FileParameterKey
 {
     file,
     content
+}
+
+/// <summary>
+/// Enum of supported HTTP methods.
+/// </summary>
+public enum HttpMethod
+{
+    POST,
+    PUT
 }

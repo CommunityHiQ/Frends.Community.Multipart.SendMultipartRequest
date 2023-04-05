@@ -30,7 +30,13 @@ namespace Frends.Community.Multipart.SendMultipartRequest
         {
             var secondsToTicks = (int)TimeSpan.FromSeconds(Convert.ToDouble(options.Timeout)).Ticks;
             var client = new RestClient(input.Url);
-            var request = new RestRequest("/", Method.Post)
+            var requestMethod = input.Method switch
+            {
+                HttpMethod.POST => Method.Post,
+                HttpMethod.PUT => Method.Put,
+                _ => Method.Post,
+            };
+            var request = new RestRequest("/", requestMethod)
             {
                 AlwaysMultipartFormData = true,
                 Timeout = secondsToTicks
