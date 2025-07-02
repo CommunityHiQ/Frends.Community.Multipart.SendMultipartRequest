@@ -11,6 +11,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
     class TestClass
     {
         private readonly static string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../testFiles/test.txt");
+        private readonly static string binTestFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../testFiles/test.jpeg");
 
         [Test]
         public async Task SendMultipartRequestTest()

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
+using System.Reflection.Metadata.Ecma335;
 
 #pragma warning disable CS1591
 
@@ -23,6 +25,12 @@ public class SendInput
     [DisplayFormat(DataFormatString = "Text")]
     [DefaultValue("https://example.org/path/to/endpoint")]
     public string Url { get; set; }
+
+    /// <summary>
+    /// Determines if the return content should be parsed as JSON or passed as string.
+    /// </summary>
+    [DefaultValue(ReturnType.String)]
+    public ReturnType ReturnType { get; set; }
 
     /// <summary>
     /// Array of files.
@@ -178,7 +186,8 @@ public enum AuthenticationMethod
 public enum FileParameterKey
 {
     file,
-    content
+    content,
+    filedata
 }
 
 /// <summary>
@@ -188,4 +197,13 @@ public enum HttpMethod
 {
     POST,
     PUT
+}
+
+/// <summary>
+/// Enum of supported return types.
+/// </summary>
+public enum ReturnType
+{
+    String,
+    JToken
 }

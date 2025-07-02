@@ -56,9 +56,14 @@ namespace Frends.Community.Multipart.SendMultipartRequest
                     case FileParameterKey.file:
                         fileParameterKey = "file";
                         break;
-                    default:
+                    case FileParameterKey.filedata:
+                        fileParameterKey = "filedata";
+                        break;
+                    case FileParameterKey.content:
                         fileParameterKey = "content";
                         break;
+                    default:
+                        throw new Exception($"Unknown FileParameterKey: {file.FileParameterKey}. Supported values are: file, filedata, content.");
                 }
 
                 request.AddFile(fileParameterKey, file.Fullpath);
@@ -81,13 +86,26 @@ namespace Frends.Community.Multipart.SendMultipartRequest
 
             var response = await client.ExecuteAsync(request, cancellationToken);
 
+            dynamic content;
+            switch (input.ReturnType)
+            {
+                case ReturnType.String:
+                    content = response.Content;
+                    break;
+                case ReturnType.JToken:
+                    content = JsonConvert.DeserializeObject<dynamic>(response.Content);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(input.ReturnType), "Unsupported return type.");
+            }
+
             if (!response.IsSuccessful && options.ThrowExceptionOnErrorResponse)
                 throw new WebException($"Status Code: {(int)response.StatusCode}\nDescription: {response.StatusDescription}\nBody:\n{response.Content}");
 
             if (!response.IsSuccessful)
                 return new SendResult { Body = null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.Content };
 
-            return new SendResult { Body = response.Content != null ? JsonConvert.DeserializeObject<dynamic>(response.Content) : null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
+            return new SendResult { Body = response.Content != null ? content : null, RequestIsSuccessful = response.IsSuccessful, ErrorException = response.ErrorException, ErrorMessage = response.ErrorMessage };
         }
     }
 }
