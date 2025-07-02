@@ -168,6 +168,11 @@ public class SendFile
     /// Full path to the file.
     /// </summary>
     public string Fullpath { get; set; }
+
+    /// <summary>
+    /// Content type of the file, e.g. "image/jpeg" or "text/plain".
+    /// </summary>
+    public string ContentType { get; set; }
 }
 
 /// <summary>

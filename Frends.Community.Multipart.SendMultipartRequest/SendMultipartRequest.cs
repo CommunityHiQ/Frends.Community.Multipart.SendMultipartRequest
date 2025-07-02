@@ -39,7 +39,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest
             var request = new RestRequest("/", requestMethod)
             {
                 AlwaysMultipartFormData = true,
-                Timeout = secondsToTicks
+                Timeout = secondsToTicks,
             };
 
             foreach (var file in input.FilePaths)
@@ -66,7 +66,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest
                         throw new Exception($"Unknown FileParameterKey: {file.FileParameterKey}. Supported values are: file, filedata, content.");
                 }
 
-                request.AddFile(fileParameterKey, file.Fullpath);
+                request.AddFile(fileParameterKey, File.ReadAllBytes(file.Fullpath), $"/{file.Fullpath.Replace("\\", "/")}", string.IsNullOrEmpty(file.ContentType) ? null : file.ContentType); 
             }
 
             foreach (var text in input.TextData)

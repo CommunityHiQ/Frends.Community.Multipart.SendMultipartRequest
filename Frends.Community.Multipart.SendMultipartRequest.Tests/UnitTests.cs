@@ -11,7 +11,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
     class TestClass
     {
         private readonly static string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../testFiles/test.txt");
-        private readonly static string binTestFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../testFiles/test.jpeg");
+        private readonly static string testFile2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../testFiles/test.jpeg");
 
         [Test]
         public async Task SendMultipartRequestTest()
@@ -122,6 +122,29 @@ namespace Frends.Community.Multipart.SendMultipartRequest.Tests
             };
 
             var result = await MultipartTasks.SendMultipartRequest(input, options, new CancellationToken());
+            Assert.IsTrue(result.RequestIsSuccessful);
+        }
+
+        [Test]
+        public async Task Test()
+        {
+            var input = new SendInput
+            {
+                Method = HttpMethod.POST,
+                Url = @"https://webhook.site/4c417f63-20c3-4028-9cc7-0c4c782b43c4?entityId=208267112&attributeId=76284&operationType=add",
+                FilePaths = new SendFile[] { new SendFile { FileParameterKey = FileParameterKey.filedata, Fullpath = testFile2 } },
+                Headers = Array.Empty<InputHeader>(),
+                TextData = new TextData[] { new TextData { Key = "entityId", Value = "208267112" }, new TextData { Key = "attributeId", Value = "76284" }, new TextData { Key = "operationType", Value = "add" } },
+            };
+
+            var options = new SendOptions()
+            {
+                Authentication = AuthenticationMethod.None,
+                BearerToken = null,
+            };
+
+            var result = await MultipartTasks.SendMultipartRequest(input, options, new CancellationToken());
+            Console.WriteLine(result.Body);
             Assert.IsTrue(result.RequestIsSuccessful);
         }
     }
