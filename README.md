@@ -26,13 +26,13 @@ A frends task for sending multipart/form-data requests.
 
 ### Input
 
-| Property  | Type                                                    | Description                                                                                           | Example                                               |
-|-----------|---------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| Method    | `Enum<POST, PUT>`                                       | HTTP method which should be used for the multipart/form-data request.                                 | `POST`                                                |
-| Url       | `string`                                                | Target URL.                                                                                           | `https://httpbin.org/post`                            |
-| FilePaths | `Array(Object<enum FileParameterKey, string FullPath>)` | List of files which will be sent to the target server.                                                | `FileParameterKey = file, FullPath = C:\tmp\test.txt` |
-| Headers   | `Array(Object<string Name, string Value>)`              | List of headers for the request. No need to add Content-Type, since it is always multipart/form-data. | `Name = Accept, Value = application/json`             |
-| TextData  | `Array(Object<string Key, string Data>)`                | List of custom parameters for the request.                                                            | `Key = channel, Value = G01QH4ES8SY`                  |
+| Property  | Type                                                        | Description                                                                                           | Example                                                    |
+|-----------|-------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| Method    | `Enum<POST, PUT>`                                           | HTTP method which should be used for the multipart/form-data request.                                 | `POST`                                                     |
+| Url       | `string`                                                    | Target URL.                                                                                           | `https://httpbin.org/post`                                 |
+| FilePaths | `Array(Object<enum FileParameterKey, string FullPath>)`     | List of files which will be sent to the target server.                                                | `FileParameterKey = file, FullPath = C:\tmp\test.txt`      |
+| Headers   | `Array(Object<string Name, string Value>)`                  | List of headers for the request. No need to add Content-Type, since it is always multipart/form-data. | `Name = Accept, Value = application/json`                  |
+| TextData  | `Array(Object<string Key, string Data, enum<ContentType>>)` | List of custom parameters for the request.                                                            | `Key = channel, Value = G01QH4ES8SY, ContentType = String` |
 
 ### Options
 
@@ -100,3 +100,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.1.0   | Fixed error message and added param ThrowExceptionOnErrorResponse                                                    |
 | 1.2.0   | Added option to select which file parameter key will be used. Changed timeout from double to int for UI improvement. |
 | 1.3.0   | Added option to select which HTTP method should be used for the request.                                             |
+| 1.4.0   | Added support for application/json data in Text data.                                                                |

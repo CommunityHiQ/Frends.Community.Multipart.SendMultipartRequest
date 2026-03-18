@@ -67,7 +67,13 @@ namespace Frends.Community.Multipart.SendMultipartRequest
             foreach (var text in input.TextData)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                request.AddParameter(text.Key, text.Value, ParameterType.GetOrPost);
+                if (text.ContentType.ToString() == "JSON")
+                {
+                    BodyParameter bodyParameter = new BodyParameter(text.Key, text.Value, "application/json");
+                    request.AddParameter(bodyParameter);
+                }
+                else
+                    request.AddParameter(text.Key, text.Value, ParameterType.GetOrPost);
             }
 
             foreach (var header in input.Headers)

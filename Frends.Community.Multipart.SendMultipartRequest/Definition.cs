@@ -143,6 +143,12 @@ public class TextData
     /// Value for the header.
     /// </summary>
     public string Value { get; set; }
+
+    /// <summary>
+    /// Type of text data.
+    /// </summary>
+    [DefaultValue(TextType.String)]
+    public TextType ContentType { get; set; }
 }
 
 /// <summary>
@@ -188,4 +194,13 @@ public enum HttpMethod
 {
     POST,
     PUT
+}
+
+/// <summary>
+/// Enum for selecting text data type.
+/// </summary>
+public enum TextType
+{
+    String,
+    JSON
 }
