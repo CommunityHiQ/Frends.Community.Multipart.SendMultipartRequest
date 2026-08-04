@@ -184,7 +184,8 @@ public enum AuthenticationMethod
 public enum FileParameterKey
 {
     file,
-    content
+    content,
+    document
 }
 
 /// <summary>

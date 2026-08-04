@@ -56,6 +56,9 @@ namespace Frends.Community.Multipart.SendMultipartRequest
                     case FileParameterKey.file:
                         fileParameterKey = "file";
                         break;
+                    case FileParameterKey.document:
+                        fileParameterKey = "document";
+                        break;
                     default:
                         fileParameterKey = "content";
                         break;

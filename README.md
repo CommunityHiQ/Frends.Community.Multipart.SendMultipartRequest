@@ -101,3 +101,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | 1.2.0   | Added option to select which file parameter key will be used. Changed timeout from double to int for UI improvement. |
 | 1.3.0   | Added option to select which HTTP method should be used for the request.                                             |
 | 1.4.0   | Added support for application/json data in Text data.                                                                |
+| 1.5.0   | Added 'document' file parameter key.                                                                                 |
