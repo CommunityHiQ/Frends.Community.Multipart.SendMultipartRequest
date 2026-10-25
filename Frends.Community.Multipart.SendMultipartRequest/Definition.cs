@@ -185,7 +185,8 @@ public enum FileParameterKey
 {
     file,
     content,
-    document
+    document,
+    fileUpload
 }
 
 /// <summary>
