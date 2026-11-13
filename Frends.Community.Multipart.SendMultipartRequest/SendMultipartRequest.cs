@@ -28,7 +28,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest
             [PropertyTab] SendOptions options,
             CancellationToken cancellationToken)
         {
-            var secondsToTicks = (int)TimeSpan.FromSeconds(Convert.ToDouble(options.Timeout)).Ticks;
+            var timeout = (int)TimeSpan.FromSeconds(Convert.ToDouble(options.Timeout)).TotalMilliseconds;
             var client = new RestClient(input.Url);
             var requestMethod = input.Method switch
             {
@@ -39,7 +39,7 @@ namespace Frends.Community.Multipart.SendMultipartRequest
             var request = new RestRequest("/", requestMethod)
             {
                 AlwaysMultipartFormData = true,
-                Timeout = secondsToTicks
+                Timeout = timeout
             };
 
             foreach (var file in input.FilePaths)
